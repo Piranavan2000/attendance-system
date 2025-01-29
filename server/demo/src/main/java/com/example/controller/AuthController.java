@@ -1,12 +1,12 @@
 package com.example.controller;
 
-import com.example.security.JwtUtil;
-import com.example.model.AuthRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.security.JwtUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -30,5 +30,26 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         return jwtUtil.generateToken(userDetails);
+    }
+}
+
+class AuthRequest {
+    private String username;
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
