@@ -23,7 +23,7 @@ import java.util.Map;
 @Configuration
 public class SecurityConfig {
 
-    private static final String USER_FILE = "C:\\Users\\piranavan\\attendance-system\\server\\demo\\src\\main\\resources\\users.txt"; // Path to the credentials file
+    private static final String USER_FILE = "C:\\Users\\piranavan\\attendance-system\\server\\demo\\src\\main\\resources\\users.txt"; 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,7 +49,7 @@ public class SecurityConfig {
             Map<String, String> users = loadUsersFromFile();
             if (users.containsKey(username)) {
                 return User.withUsername(username)
-                        .password(passwordEncoder().encode(users.get(username))) // Hashing password
+                        .password(passwordEncoder().encode(users.get(username)))
                         .roles("USER")
                         .build();
             } else {
@@ -70,7 +70,7 @@ public class SecurityConfig {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 2) {
-                    users.put(parts[0], parts[1]); // username -> password
+                    users.put(parts[0], parts[1]); 
                 }
             }
         } catch (IOException e) {
