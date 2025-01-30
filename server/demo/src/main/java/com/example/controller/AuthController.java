@@ -1,5 +1,9 @@
 package com.example.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.security.JwtUtil;
-
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/api")
 public class AuthController {
@@ -22,15 +26,22 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody AuthRequest authRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-        );
+@PostMapping("/login")
+public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequest authRequest) {
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+    );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        return jwtUtil.generateToken(userDetails);
-    }
+    UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+    String token = jwtUtil.generateToken(userDetails);
+
+    Map<String, String> response = new HashMap<>();
+    response.put("token", token);
+    response.put("username", userDetails.getUsername()); 
+
+    return ResponseEntity.ok(response);
+}
+
 }
 
 class AuthRequest {

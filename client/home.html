@@ -4,18 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/free-photo/top-view-wall-clock-still-life_23-2150417202.jpg?t=st=1738222021~exp=1738225621~hmac=bdd167d516df1d707cb3ed699ebb1463cf9da45718f25ce8aef422f5fedb24dc&w=996');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: #f39c12;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .welcome-message {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            padding: 12px 40px;
+            border: none;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+            cursor: pointer;
+        }
+
+        @media (max-width: 576px) {
+            .card {
+                margin: 20px;
+                border-radius: 10px;
+            }
+            .btn-logout {
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Adding some subtle animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+    </style>
 </head>
 <body>
 
     <div class="wrapper">
-        <div class="inner">
-            <h3>Welcome to the Attendance System</h3>
-            <p>You are logged in!</p>
-            <button id="logoutButton">Logout</button>
+        <div class="card fade-in">
+            <div class="card-header">
+                Welcome to the Attendance System
+            </div>
+            <div class="card-body text-center">
+                <p id="welcome-message" class="welcome-message">You are logged in!</p>
+                <div class="d-flex justify-content-center">
+                    <button id="logoutButton" class="btn btn-logout btn-lg">Logout</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="logout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const username = localStorage.getItem("username");
+        const token = localStorage.getItem("jwt_token");
+
+        if (token) {
+            document.getElementById('welcome-message').textContent = `Welcome, ${username}!`;
+        } else {
+            window.location.href = "index.html";
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            localStorage.removeItem('jwt_token');
+            localStorage.removeItem('username');
+            window.location.href = 'index.html';
+        });
+    </script>
+
 </body>
 </html>
