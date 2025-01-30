@@ -5,7 +5,6 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     const password = document.getElementById("password").value;
     const errorMessage = document.getElementById("error-message");
 
-    // Basic validations
     if (username.trim() === "") {
         errorMessage.textContent = "Username is required.";
         return;
